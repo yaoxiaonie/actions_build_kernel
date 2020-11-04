@@ -15,8 +15,8 @@ on:
     
 env:
   KERNEL_URL: https://github.com/crdroidandroid/android_kernel_xiaomi_msm8996.git
-  GCC_ARM64: https://github.com/yaoxiaonie/arm64-gcc.git
-  GCC_ARM: https://github.com/yaoxiaonie/arm32-gcc.git
+  GCC_ARM64: 
+  GCC_ARM: 
   CLANG: https://github.com/yaoxiaonie/clang.git -b 10.0
   GCC_ARM64_TYPE: aarch64-none-linux-gnu
   GCC_ARM_TYPE: arm-none-linux-gnueabihf
