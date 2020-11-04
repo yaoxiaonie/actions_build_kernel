@@ -1,0 +1,63 @@
+name: build_kernel
+
+on:
+#  release:
+#    types: [published]
+#  push:
+#    branches:
+#      - master
+#    paths:
+#      - '.config'
+#  schedule:
+#    - cron: 0 8 * * 5
+  watch:
+    types: [started]
+    
+env:
+  KERNEL_URL: https://github.com/crdroidandroid/android_kernel_xiaomi_msm8996.git
+  GCC_ARM64: https://github.com/yaoxiaonie/arm64-gcc.git
+  GCC_ARM: https://github.com/yaoxiaonie/arm32-gcc.git
+  CLANG: https://github.com/yaoxiaonie/clang.git -b 10.0
+  GCC_ARM64_TYPE: aarch64-none-linux-gnu
+  GCC_ARM_TYPE: arm-none-linux-gnueabihf
+  DEFCONFIG_NAME: gemini_defconfig
+  BUILD_USER: Actions
+  BUILD_HOST: MistyRain
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+
+    steps:
+       - name: Checkout
+         uses: actions/checkout@master
+         
+       - name: Clone android kernel source code
+         run: |
+            sudo git clone $KERNEL_URL kernel
+            
+       - name: Cloned Android kernel cross-compiler
+         run: |
+            sudo git clone $GCC_ARM gcc-arm32
+            sudo git clone $GCC_ARM64 gcc-arm64
+            sudo git clone $CLANG clang
+       
+       - name: Start building the Android kernel
+         run: |
+            sudo curl "https://raw.githubusercontent.com/yaoxiaonie/actions_build_android_kernel/master/build-kernel.sh" > build-kernel.sh
+            sudo chmod 777 build-kernel.sh
+            sudo bash ./build-kernel.sh "kernel" "${DEFCONFIG_NAME}" "${BUILD_USER}" "${BUILD_HOST}" "${GCC_ARM64_TYPE}" "${GCC_ARM_TYPE}"
+
+       - name: Upload Android kernel (gz)
+         uses: actions/upload-artifact@v2
+         with:
+           name: Image.gz
+           path: Image.gz
+           if-no-files-found: error
+
+       - name: Upload Android kernel (dtb)
+         uses: actions/upload-artifact@v2
+         with:
+           name: Image.gz-dtb
+           path: Image.gz-dtb
+           if-no-files-found: error
