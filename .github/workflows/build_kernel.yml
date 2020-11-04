@@ -38,8 +38,6 @@ jobs:
             
        - name: Cloned Android kernel cross-compiler
          run: |
-            sudo git clone $GCC_ARM gcc-arm32
-            sudo git clone $GCC_ARM64 gcc-arm64
             sudo git clone $CLANG clang
        
        - name: Start building the Android kernel
