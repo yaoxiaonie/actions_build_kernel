@@ -31,7 +31,13 @@ jobs:
     steps:
        - name: Checkout
          uses: actions/checkout@master
-         
+
+       - name: Installation Required Dependency
+         run: |
+            sudo apt update
+            sudo apt -y install bc bison ca-certificates ccache clang cmake curl file flex gcc g++ git libelf-dev libssl-dev make ninja-build python3 texinfo u-boot-tools xz-utils zlib1g-dev
+            sudo apt install axel
+
        - name: Clone android kernel source code
          run: |
             sudo git clone $KERNEL_URL kernel
