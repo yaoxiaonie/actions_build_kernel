@@ -1,17 +1,6 @@
 #!/bin/bash
 
 SH_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-
-INSTALL_GCC()
-{
-axel -n 8 "https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu-a/9.2-2019.12/binrel/gcc-arm-9.2-2019.12-x86_64-arm-none-linux-gnueabihf.tar.xz"
-axel -n 8 "https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu-a/9.2-2019.12/binrel/gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu.tar.xz"
-tar Jxvf gcc-arm-9.2-2019.12-x86_64-arm-none-linux-gnueabihf.tar.xz
-tar Jxvf gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu.tar.xz
-}
-
-BUILD_KERNEL()
-{
 KERNEL_DIR=$1
 DEVICE=$2
 BUILD_USER=$3
@@ -43,13 +32,7 @@ fi
 if [ -e "$KERNEL_DIR/out/arch/arm64/boot/Image.gz" ] ;then
     mv $KERNEL_DIR/out/arch/arm64/boot/Image.gz-dtb ./
 fi
+
 echo
 echo "Done!"
 echo
-}
-
-if [ "$1" = "INSTALL_GCC" ] ;then
-    INSTALL_GCC
-else
-    BUILD_KERNEL
-fi
