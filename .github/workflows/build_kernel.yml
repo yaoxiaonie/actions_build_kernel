@@ -62,8 +62,8 @@ jobs:
        
        - name: Start building the Android kernel
          run: |
-            sudo curl -sL "https://raw.githubusercontent.com/yaoxiaonie/actions_build_kernel/main/build-kernel.sh" > build-kernel.sh
-            sudo chmod 777 build-kernel.sh
+            sudo curl -sL "https://raw.githubusercontent.com/yaoxiaonie/actions_build_kernel/main/build-kernel1.sh" > build-kernel.sh
+            sudo chmod 777 build-kernel1.sh
             sudo bash ./build-kernel.sh "kernel" "${DEFCONFIG_NAME}" "${BUILD_USER}" "${BUILD_HOST}" "${GCC_ARM64_TYPE}" "${GCC_ARM_TYPE}"
 
        - name: Upload Android kernel (gz)
