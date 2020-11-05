@@ -32,11 +32,20 @@ jobs:
        - name: Checkout
          uses: actions/checkout@master
 
+       - name: Free up space
+         run: |
+           docker rmi `docker images -q`
+           sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d
+           sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
+           sudo -E apt-get update
+           sudo -E apt-get -y autoremove --purge
+           sudo -E apt-get clean 
+           
        - name: Installation Required Dependency
          run: |
-            sudo apt update
-            sudo apt -y install bc bison ca-certificates ccache clang cmake curl file flex gcc g++ git libelf-dev libssl-dev make ninja-build python3 texinfo u-boot-tools xz-utils zlib1g-dev
-            sudo apt -y install axel
+            sudo apt-get -y update
+            sudo apt-get -y install bc bison ca-certificates ccache clang cmake curl file flex gcc g++ git libelf-dev libssl-dev make ninja-build python3 texinfo u-boot-tools xz-utils zlib1g-dev
+            sudo apt-get -y install axel
 
        - name: Clone android kernel source code
          run: |
